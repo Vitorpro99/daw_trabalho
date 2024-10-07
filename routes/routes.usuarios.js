@@ -25,7 +25,7 @@ module.exports = (app) => {
     });
     router.get("upload/:arquivo", (req, res) =>{
         const arquivo = path.dirname(__dirname)
-        +`/uploads/usuarios + ${req.params.arquivo};`
+        +`/uploads/ + ${req.params.arquivo};`
         fs.readFile(arquivo,function(err, data){
             res,contentType("png");
             res.send(data);
