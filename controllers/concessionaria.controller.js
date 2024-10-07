@@ -6,6 +6,9 @@ if(!req.body.nome){
     res.status(400).send({
         message: "Nome é obrigatório, não pode estar vazio"
     });
+    return
+} 
+
     const concessionaria = {
         nome: req.body.nome,
         endereco: req.body.endereco,
@@ -13,7 +16,7 @@ if(!req.body.nome){
         cidade: req.body.cidade,
         foto: req.body.foto
     }
-    concessionaria.create(concessionaria)
+    Concessionaria.create(concessionaria)
         .then((data)=> {
             res.send(data)
         })
@@ -23,7 +26,7 @@ if(!req.body.nome){
             });
         });
 }
-};
+
 
 exports.findAll = (req,res) =>{
    const nome = req.query.nome;
@@ -46,7 +49,7 @@ exports.findOne = (req,res) =>{
     Concessionaria.findByPk(id)
         .then((data) => {
             if(data){
-                res,send;
+                res.send(data);
             }else{
                 res.status(404).send({
                     message: `Concessionária não encontrada com o id= ${id}.`,

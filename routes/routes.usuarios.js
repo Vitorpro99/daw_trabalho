@@ -44,7 +44,9 @@ module.exports = (app) => {
     router.delete("/:id", usuarios.delete);
     // Rota para deletar todos os usuarios
     router.delete("/", usuarios.deleteAll);
+
+    router.post("/login/",usuarios.login)
     // A linha abaixo informa que todas essas rotas são encontradas após o
     //usuarios. Isto é, localhost:8080/usuarios/rota
-    app.use("/usuarios", router);
+    app.use("/usuarios/", router);
     };

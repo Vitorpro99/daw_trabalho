@@ -1,5 +1,5 @@
 module.exports = (app) => {
-    const veiculos = require("../controllers/veiculos.controller.js" );
+    const veiculos = require("../controllers/veiculos.controllers.js" );
     var router = require("express").Router();
     const multer = require("multer");
         const fs = require("fs");
@@ -46,5 +46,5 @@ module.exports = (app) => {
     router.delete("/", veiculos.deleteAll);
     // A linha abaixo informa que todas essas rotas são encontradas após o
     //veiculos. Isto é, localhost:8080/veiculos/rota
-    app.use("/veiculos", router);
+    app.use("/veiculos/", router);
     };

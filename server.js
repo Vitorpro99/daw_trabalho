@@ -31,6 +31,10 @@ db.sequelize
     console.error("Erro ao sincronizar DB: ", err.message);
   });
 
+  require("./routes/routes.concessionaria.js")(app);
+  require("./routes/routes.usuarios.js")(app);
+  require("./routes/routes.veiculos.js")(app);
+  
 app.listen(8000, function (req,res) {
     console.log("App rodando na porta 8000");
 });

@@ -47,5 +47,5 @@ module.exports = (app) => {
     router.delete("/", concessionaria.deleteAll);
     // A linha abaixo informa que todas essas rotas são encontradas após o
     //concessionaria. Isto é, localhost:8080/concessionaria/rota
-    app.use("/concessionaria", router);
+    app.use("/concessionaria/", router);
     };

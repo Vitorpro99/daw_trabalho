@@ -10,6 +10,8 @@ exports.create = (req,res) =>{
         res.status(400).send({
             message: "Nome é obrigatório, não pode estar vazio"
         });
+        return
+    }
         const usuario = {
             nome: req.body.nome,
             email: req.body.email,
@@ -26,7 +28,6 @@ exports.create = (req,res) =>{
                     message: err.message || "Erro ao tentar cadastrar o veículo."
                 });
             });
-};
 };
 exports.findAll = (req,res) =>{
     const nome = req.query.nome;
@@ -46,10 +47,10 @@ exports.findAll = (req,res) =>{
 exports.findOne = (req,res) =>{
     const id = req.params.id;
 
-    Usuario.findByPk(id)
+    Usuarios.findByPk(id)
         .then((data) => {
             if(data){
-                res,send;
+                res.send(data);
             }else{
                 res.status(404).send({
                     message: `Usuário não encontrada com o id= ${id}.`,
@@ -113,7 +114,7 @@ exports.delete = (req,res) =>{
         });
 };
 exports.deleteAll = (req,res) =>{
-    Usuario.destroy({ where:{}, truncate: false,})
+    Usuarios.destroy({ where:{}, truncate: false,})
     .then((nums) =>{
         res.send({ message: `${nums} Usuários foram deletados com sucesso!` });
     })
@@ -124,7 +125,7 @@ exports.deleteAll = (req,res) =>{
     });
 };
 exports.login = (req, res) =>{
-    Usuario.findOne({
+    Usuarios.findOne({
         where: {
         email: req.body.email,
         },

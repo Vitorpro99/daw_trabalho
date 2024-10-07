@@ -2,10 +2,12 @@ const db = require("../models");
 const Veiculos = db.veiculos;
 
 exports.create = (req,res) =>{
-    if(!req.body.nome){
+    if(!req.body.marca){
         res.status(400).send({
             message: "Nome é obrigatório, não pode estar vazio"
         });
+        return
+    }
         const veiculo = {
             marca: req.body.marca,
             modelo: req.body.modelo,
@@ -26,7 +28,7 @@ exports.create = (req,res) =>{
                 });
             });
 };
-};
+
 
 exports.findAll = (req,res) =>{
     const nome = req.query.nome;
@@ -46,10 +48,10 @@ exports.findAll = (req,res) =>{
 exports.findOne = (req,res) =>{
     const id = req.params.id;
 
-    Veiculo.findByPk(id)
+    Veiculos.findByPk(id)
         .then((data) => {
             if(data){
-                res,send;
+                res.send(data);
             }else{
                 res.status(404).send({
                     message: `Veiculo não encontrada com o id= ${id}.`,
