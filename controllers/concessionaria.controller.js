@@ -14,7 +14,8 @@ if(!req.body.nome){
         endereco: req.body.endereco,
         cnpj: req.body.cnpj,
         cidade: req.body.cidade,
-        foto: req.body.foto
+        foto: req.body.foto,
+        usuarioId: req.body.usuarioId
     }
     Concessionaria.create(concessionaria)
         .then((data)=> {
@@ -115,7 +116,7 @@ exports.delete = (req,res) =>{
 exports.deleteAll = (req,res) =>{
     Concessionaria.destroy({ where:{}, truncate: false,})
     .then((nums) =>{
-        res.send({ message: `${nums} Usuários foram deletadas com sucesso!` });
+        res.send({ message: `${nums} Concessionarias foram deletadas com sucesso!` });
     })
     .catch((err) => {
         res.status(500).send({

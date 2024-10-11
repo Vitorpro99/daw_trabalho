@@ -16,7 +16,8 @@ exports.create = (req,res) =>{
             kilometragem: req.body.kilometragem,
             cor: req.body.cor,
             preco: req.body.preco,
-            foto: req.body.foto
+            foto: req.body.foto,
+            concessionariumId: req.body.concessionariaId
         };
         Veiculos.create(veiculo)
             .then((data) => {

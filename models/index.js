@@ -24,9 +24,13 @@ db.concessionaria = require("./concessionaria.model.js") (sequelize, Sequelize);
 db.usuarios = require("./usuarios.model.js") (sequelize, Sequelize);
 
 db.usuarios.hasOne(db.concessionaria);
-db.concessionaria.hasOne(db.usuarios);
+db.concessionaria.belongsTo(db.usuarios);
+// db.usuarios.hasOne(db.concessionaria);
+// db.concessionaria.hasOne(db.usuarios);
 
 db.concessionaria.hasMany(db.veiculos);
-db.veiculos.hasOne(db.concessionaria);
+db.veiculos.belongsTo(db.concessionaria);
+// db.concessionaria.hasMany(db.veiculos);
+// db.veiculos.hasOne(db.concessionaria);
 
 module.exports = db;
