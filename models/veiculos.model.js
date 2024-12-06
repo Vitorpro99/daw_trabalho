@@ -1,3 +1,5 @@
+const { STRING } = require("sequelize");
+
 module.exports = (sequelize, Sequelize) => {
 
     const veiculo = sequelize.define( "veiculo",{
@@ -9,6 +11,8 @@ module.exports = (sequelize, Sequelize) => {
         cor: {type: Sequelize.STRING},
         preco: {type: Sequelize.FLOAT},
         foto: {type : Sequelize.STRING},
+        descricao: {type : Sequelize.STRING},
+        chassi: {type: Sequelize.STRING}
     }, 
 { freezeTableName:true}
 );

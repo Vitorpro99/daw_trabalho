@@ -5,7 +5,9 @@ module.exports = (sequelize,Sequelize) => {
         endereco: {type: Sequelize.STRING},
         cnpj: {type: Sequelize.STRING},
         cidade: {type: Sequelize.STRING},
-        foto:{type: Sequelize.STRING}
+        foto:{type: Sequelize.STRING},
+        lat: {type: Sequelize.STRING},
+        long: {type: Sequelize.STRING}
     },{freezeTableName: true}
 );
 return concessionaria
