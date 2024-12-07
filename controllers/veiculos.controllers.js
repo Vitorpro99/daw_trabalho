@@ -17,7 +17,9 @@ exports.create = (req,res) =>{
             cor: req.body.cor,
             preco: req.body.preco,
             foto: req.body.foto,
-            concessionariumId: req.body.concessionariaId
+            descricao: req.body.descricao,
+            chassi: req.body.chassi,
+            concessionariumId: req.body.concessionariaId,
         };
         Veiculos.create(veiculo)
             .then((data) => {

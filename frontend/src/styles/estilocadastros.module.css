@@ -1,10 +1,67 @@
-.divCadastro{
-    flex:1;
+.divCadastro {
+
     display: flex;
     align-items: center;
     justify-content: center;
     flex-direction: column;
+    height: 100%;
+
 }
-.inputCadastro{
-    width:75%;
+.inputCadastro {
+
+    align-self: center;
+    font-size: large;
+    width: 100%;
+}
+.labelInputGroup{
+    display:flex;
+    flex-direction: column;
+    gap: 10px;
+    align-content:  center;
+    width: 75%;
+    align-self: center;
+    background-color: aquamarine;
+}
+.formCadastro {
+    margin: 1rem;
+    display: flex;
+    flex-direction: column;
+    width: 50%;
+    height:400px;
+    gap: 0.5rem;
+    
+    border: 1px solid black; 
+    border-radius: 10px;
+    background-color: rgb(255, 255, 255); 
+    /* align-items: center; */
+    padding: 1rem; 
+}
+.formCadastro .labels {
+    font-weight: bold;
+    color:black
+    
+}
+.submitButton {
+    cursor: pointer;
+    padding: 10px; 
+    width: fit-content;
+}
+.buttonGroup{
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+    
+}
+
+.textareaCadastro {
+    width: 100%;
+    height:22px;
+    font-size: large;
+    resize: none;
+    
+}
+
+.selectCadastro {
+    width: 90%; 
+    font-size: large;
 }

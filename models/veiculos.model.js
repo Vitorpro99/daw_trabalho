@@ -12,7 +12,8 @@ module.exports = (sequelize, Sequelize) => {
         preco: {type: Sequelize.FLOAT},
         foto: {type : Sequelize.STRING},
         descricao: {type : Sequelize.STRING},
-        chassi: {type: Sequelize.STRING}
+        chassi: {type: Sequelize.STRING},
+        concessionariaId: {type : Sequelize.INTEGER},
     }, 
 { freezeTableName:true}
 );
