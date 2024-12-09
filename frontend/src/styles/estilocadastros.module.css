@@ -54,6 +54,11 @@
     color:black
     
 }
+.h2{
+    font-variant-caps: all-small-caps;
+    font-weight: bold;
+    font-size:3rem;
+}
 .submitButton {
     cursor: pointer;
     padding: 10px; 

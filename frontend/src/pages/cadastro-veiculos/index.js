@@ -34,7 +34,13 @@ export default function cadastroProdutos() {
   const prevStep = () =>{setStep((prevStep) => prevStep -1)}
   const handleSubmit = (e) =>{
     e.preventDefault();
-    const {marca, modelo, ano, categoria, kilometragem, cor, preco,foto, concessionaria, descricao, chassi } = e.target;
+    const salvarVeiculo = {...formVeiculo,
+      ano: parseInt(formVeiculo.ano),
+      kilometragem:parseInt(formVeiculo.kilometragem),
+      preco: parseFloat(formVeiculo.preco),
+      concessionariumId: parseInt(formVeiculo.concessionaria)
+    } 
+    //const {marca, modelo, ano, categoria, kilometragem, cor, preco,foto, concessionaria, descricao, chassi } = e.target;
     // var salvarVeiculo = {
     //   marca: marca.value,
     //   modelo: modelo.value,
@@ -49,8 +55,9 @@ export default function cadastroProdutos() {
     //   chassi: chassi.value
     // }
     api
-      .post("/veiculos/",formVeiculo)
+      .post("/veiculos/",salvarVeiculo)
       .then((res)=>{
+        console.log(salvarVeiculo);
         alert("Carro salvo com sucesso!");
       })
       .catch((err) => {
@@ -62,7 +69,7 @@ export default function cadastroProdutos() {
   return (
     
       <div className={styles.divCadastro} id="divCadastro">
-      <h2>Cadastro de veiculos</h2>
+      <h2 className={styles.h2}>Cadastro de veiculos</h2>
         <form onSubmit={handleSubmit} className={styles.formCadastro}>
           {step === 1 && (
             <>
@@ -92,12 +99,12 @@ export default function cadastroProdutos() {
               <br />
             <div className={styles.labelInputGroup}>
               <label className={styles.labels} htmlFor="kilometragem">Kilometragem</label>
-              <input className={styles.inputCadastro} type="number" min="0" name="kilometragem" id="kilometragem"   />
+              <input className={styles.inputCadastro} onChange={handleChange} type="number" min="0" name="kilometragem" id="kilometragem"   />
             </div> 
               <br />
             <div className={styles.labelInputGroup}>
               <label className={styles.labels} htmlFor="cor">Cor</label>
-              <input className={styles.inputCadastro} type="text" name="cor" id="cor" />
+              <input className={styles.inputCadastro} onChange={handleChange} type="text" name="cor" id="cor" />
             </div>
               <br />
             </>
@@ -106,17 +113,17 @@ export default function cadastroProdutos() {
             <>
             <div className={styles.labelInputGroup}>
               <label className={styles.labels} htmlFor="preco">Preço</label>
-              <input className={styles.inputPrecoCadastro} type="number" min="0" name="preco" id="preco" />
+              <input className={styles.inputPrecoCadastro} onChange={handleChange} type="number" min="0" name="preco" id="preco" />
             </div>
               <br />
             <div className={styles.labelInputGroup}>
               <label className={styles.labels} htmlFor="foto">Foto</label>
-              <input className={styles.inputFileCadastro} type="file" name="foto" id="foto" />
+              <input className={styles.inputFileCadastro} onChange={handleChange} type="file" name="foto" id="foto" />
             </div>
               <br />
             <div className={styles.labelInputGroup}>
               <label className={styles.labels} htmlFor="descricao">Descrição</label>
-          <textarea className={styles.textareaCadastro} name="descricao" id="descricao" cols="30" rows="10"></textarea>
+          <textarea className={styles.textareaCadastro} onChange={handleChange} name="descricao" id="descricao" cols="30" rows="10"></textarea>
           </div>
           <br />
             </>
@@ -125,7 +132,7 @@ export default function cadastroProdutos() {
             <>
             <div className={styles.labelInputGroup}>
             <label className={styles.labels} htmlFor="concessionaria">Concessionaria</label>
-            <select className={styles.selectCadastro} name="concessionaria" id="concessionaria">
+            <select className={styles.selectCadastro} onChange={handleChange} name="concessionaria" id="concessionaria">
               <option value="">Selecione uma concessionaria</option>
               <option value="1">Teste</option>
               {/* Adicionar options de concessionaria aqui */}
@@ -134,7 +141,7 @@ export default function cadastroProdutos() {
             <br />
             <div className={styles.labelInputGroup}>
             <label className={styles.labels} htmlFor="chassi">Chassi</label>
-            <input className={styles.inputCadastro} type="text" name="chassi" id="chassi" />
+            <input className={styles.inputCadastro} onChange={handleChange} type="text" name="chassi" id="chassi" />
             </div>
             <br />
             </>
