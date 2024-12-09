@@ -2,6 +2,7 @@ import api from "@/services/api";
 import styles from "@/styles/estilocadastros.module.css";
 import {useRouter} from 'next/router';
 import { useState } from "react";
+import { SlArrowRight, SlArrowLeft, SlCheck } from "react-icons/sl"
 
 
 export default function cadastroProdutos() {
@@ -91,7 +92,7 @@ export default function cadastroProdutos() {
               <br />
             <div className={styles.labelInputGroup}>
               <label className={styles.labels} htmlFor="kilometragem">Kilometragem</label>
-              <input className={styles.inputCadastro} type="number" min="0" name="kilometragem" id="kilometragem" />
+              <input className={styles.inputCadastro} type="number" min="0" name="kilometragem" id="kilometragem"   />
             </div> 
               <br />
             <div className={styles.labelInputGroup}>
@@ -105,12 +106,12 @@ export default function cadastroProdutos() {
             <>
             <div className={styles.labelInputGroup}>
               <label className={styles.labels} htmlFor="preco">Preço</label>
-              <input className={styles.inputCadastro} type="number" min="0" name="preco" id="preco" />
+              <input className={styles.inputPrecoCadastro} type="number" min="0" name="preco" id="preco" />
             </div>
               <br />
             <div className={styles.labelInputGroup}>
               <label className={styles.labels} htmlFor="foto">Foto</label>
-              <input className={styles.inputCadastro} type="file" name="foto" id="foto" />
+              <input className={styles.inputFileCadastro} type="file" name="foto" id="foto" />
             </div>
               <br />
             <div className={styles.labelInputGroup}>
@@ -139,9 +140,9 @@ export default function cadastroProdutos() {
             </>
           )}
            <div className={styles.buttonGroup}>
-          {step > 1 && <button className={styles.submitButton} type="button" onClick={prevStep}>Voltar</button>}
-          {step < 4 && <button className={styles.submitButton} type="button" onClick={nextStep}>Próximo</button>}
-          {step === 4 && <button className={styles.submitButton} type="submit">Enviar</button>}
+          {step > 1 && <button className={styles.submitButton} type="button" onClick={prevStep}><SlArrowLeft className={styles.icon}/></button>}
+          {step < 4 && <button className={styles.submitButton} type="button" onClick={nextStep}><SlArrowRight className={styles.icon}/></button>}
+          {step === 4 && <button className={styles.submitButton} type="submit"><SlCheck className={styles.icon}/></button>}
           </div>
 
         </form>

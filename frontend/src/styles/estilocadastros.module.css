@@ -8,10 +8,23 @@
 
 }
 .inputCadastro {
-
     align-self: center;
     font-size: large;
     width: 100%;
+    font-size:large;
+}
+.inputPrecoCadastro{
+    align-self: center;
+    font-size: large;
+    width: 100%;
+    font-size:large; 
+}
+.inputFileCadastro{
+    align-self: center;
+    font-size: large;
+    width: 100%;
+    font-size:large;
+    color:black;
 }
 .labelInputGroup{
     display:flex;
@@ -20,7 +33,7 @@
     align-content:  center;
     width: 75%;
     align-self: center;
-    background-color: aquamarine;
+
 }
 .formCadastro {
     margin: 1rem;
@@ -30,7 +43,7 @@
     height:400px;
     gap: 0.5rem;
     
-    border: 1px solid black; 
+    /* border: 1px solid black;  */
     border-radius: 10px;
     background-color: rgb(255, 255, 255); 
     /* align-items: center; */
@@ -44,7 +57,16 @@
 .submitButton {
     cursor: pointer;
     padding: 10px; 
-    width: fit-content;
+    width: 35%;
+    background-color:white;
+    color: #ff3e3e87;
+    border-width:20px;
+    border: 5px #ff3e3e87 solid;
+    border-radius: 10px;    
+}
+.submitButton:hover {
+    background-color: #ff3e3e;
+    color: white;
 }
 .buttonGroup{
     display: flex;
@@ -52,13 +74,14 @@
     justify-content: center;
     
 }
-
+.icon{
+    scale: 1.5;
+}
 .textareaCadastro {
     width: 100%;
     height:22px;
     font-size: large;
     resize: none;
-    
 }
 
 .selectCadastro {
