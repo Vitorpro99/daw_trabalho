@@ -8,7 +8,7 @@ export default function Header(){
   return (
     <Navbar className={styles.navbar} expand="lg">
       <Container className={styles.container}>
-        
+          {/* professora me ajuda ._. */}
         <Navbar.Brand><Image src="./iconvrumvrum.png"/></Navbar.Brand>
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse className={styles.navcollapse}>
