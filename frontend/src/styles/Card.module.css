@@ -1,0 +1,62 @@
+.mainDiv{
+    width: 100%;
+    display: flex;
+    flex-direction:row;
+    gap: 5px;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+.container{
+    display:flex;
+    flex-direction: row;
+    background-color: whitesmoke;
+    width: 35%;
+    justify-content: center;
+    align-items: center;
+    border: 1px solid white;
+    border-radius: 10px;
+    padding:0.5rem;
+}
+.buttonGroup{
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+    background-color: red;
+    flex-direction: column;
+    padding: 10px;
+    height:fit-content;
+    align-items: center;
+    align-content: center;
+    border: 1px solid;
+    border-radius: 10px;
+}
+.intDiv > p{
+    color:black;
+    align-self: center;
+}
+.specs{
+    color: darkblue;
+}
+.intDiv{
+    width: 50%;
+    display: flex;
+}
+.buttons{
+    cursor: pointer;
+    padding: 10px; 
+    width: fit-content;
+    background-color:white;
+    color: #ff3e3e;
+    border-width:20px;
+    border: 5px #ff3e3e87 solid;
+    border-radius: 10px;    
+    
+}
+.icon{
+    scale:1.5
+}
+.buttons:hover{
+    background-color: #ff3e3e;
+    color: white;
+    
+}

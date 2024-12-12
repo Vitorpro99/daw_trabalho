@@ -14,5 +14,19 @@
 .navcollapse{
     display:flex;
     flex-direction: row;
-    gap:1rem
+    gap:1rem;
+}
+.dropdownitem{
+    color:white;
+    background-color: #ff3e3e87;
+    
+}
+.navdrop{
+    
+}
+.nav1{
+     
+}
+.a{
+    
 }

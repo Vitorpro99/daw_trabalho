@@ -9,25 +9,25 @@ export default function Header(){
     <Navbar className={styles.navbar} expand="lg">
       <Container className={styles.container}>
           {/* professora me ajuda ._. */}
-        <Navbar.Brand><Image src="./iconvrumvrum.png"/></Navbar.Brand>
+        <Navbar.Brand><Image style={{width:"50%"}} src="iconvrumvrum.png"/></Navbar.Brand>
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse className={styles.navcollapse}>
           <Nav className={styles.nav1}>
-            <NavDropdown title="Usuários" id="dropdown-usuarios">
-              <NavDropdown.Item href="/listar-usuarios">Listar Usuários</NavDropdown.Item>
-              <NavDropdown.Item href="/cadastrar-usuarios">Cadastrar Usuário</NavDropdown.Item>
+            <NavDropdown className={styles.navdrop} title="Usuários" id="dropdown-usuarios">
+              <NavDropdown.Item  className={styles.dropdownitem} href="/listar-usuarios"><a className={styles.a} href="/cadastrar-usuarios">Listar Usuarios</a></NavDropdown.Item >
+              <NavDropdown.Item  className={styles.dropdownitem} href="/cadastrar-usuarios"><a className={styles.a} href="/listar-usuarios">Cadastrar Usuário</a></NavDropdown.Item >
             </NavDropdown>
           </Nav>
           <Nav>
-          <NavDropdown title="Veículos" id="dropdown-veiculos">
-              <NavDropdown.Item href="/listar-veiculos">Listar Veículos</NavDropdown.Item>
-              <NavDropdown.Item href="/cadastrar-veiculos">Cadastrar Veículo</NavDropdown.Item>
+          <NavDropdown className={styles.navdrop} title="Veículos" id="dropdown-veiculos">
+              <NavDropdown.Item  className={styles.dropdownitem} href="/listar-veiculos"><a className={styles.a} href="/listar-veiculos">Listar veiculos</a></NavDropdown.Item >
+              <NavDropdown.Item className={styles.dropdownitem} href="/cadastro-veiculos"><a className={styles.a} href="/cadastro-veiculos">Cadastrar veiculos</a></NavDropdown.Item >
             </NavDropdown>
           </Nav>
           <Nav>
-          <NavDropdown title="Concessionárias" id="dropdown-concessionarias">
-              <NavDropdown.Item href="/listar-concessionarias">Listar Concessionárias</NavDropdown.Item>
-              <NavDropdown.Item href="/cadastrar-concessionarias">Cadastrar Concessionária</NavDropdown.Item>
+          <NavDropdown className={styles.navdrop} title="Concessionárias" id="dropdown-concessionarias">
+              <NavDropdown.Item className={styles.dropdownitem} href="/listar-concessionarias"><a className={styles.a} href="listar-concessionarias">Listar concessionárias</a></NavDropdown.Item >
+              <NavDropdown.Item className={styles.dropdownitem} href="/cadastro-concessionarias"><a className={styles.a} href="cadastro-concessionarias">Cadastrar concessionárias</a></NavDropdown.Item >
             </NavDropdown>
           </Nav>
         </Navbar.Collapse>
