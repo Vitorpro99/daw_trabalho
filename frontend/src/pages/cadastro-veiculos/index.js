@@ -73,8 +73,10 @@ export default function cadastroveiculos() {
   const prevStep = () => { setStep((prevStep) => prevStep - 1) }
   const handleSubmit = (e) => {
     e.preventDefault();
+    const {foto} = e.target;
     const salvarVeiculo = {
       ...formVeiculo,
+      foto: '',
       ano: parseInt(formVeiculo.ano),
       kilometragem: parseInt(formVeiculo.kilometragem),
       preco: parseFloat(formVeiculo.preco),
@@ -84,6 +86,7 @@ export default function cadastroveiculos() {
       .post("/veiculos/", salvarVeiculo)
       .then((res) => {
         console.log(salvarVeiculo);
+        console.log(foto);
         if(foto.files){
           const fotoSalvar = foto.files[0];
           salvarImagem(res.data.id, fotoSalvar)
@@ -183,7 +186,6 @@ useEffect(()=>{
             <div className={styles.labelInputGroup}>
               <label className={styles.labels} htmlFor="foto">Foto</label>
               <input className={styles.inputFileCadastro}
-                onChange={handleChange}
                 type="file"
                 name="foto"
                 id="foto"

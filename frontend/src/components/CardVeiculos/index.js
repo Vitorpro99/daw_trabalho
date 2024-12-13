@@ -20,7 +20,7 @@ export default function CardVeiculo({veiculo}){
         api
         .delete(`veiculos/${id}`)
         .then(() => {
-            alert("Excluído com sucesso");
+            // alert("Excluído com sucesso");
             router.reload()
         })
         .catch(err => {

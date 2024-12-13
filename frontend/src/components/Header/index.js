@@ -9,13 +9,13 @@ export default function Header(){
     <Navbar className={styles.navbar} expand="lg">
       <Container className={styles.container}>
           {/* professora me ajuda ._. */}
-        <Navbar.Brand><Image style={{width:"50%"}} src="iconvrumvrum.png"/></Navbar.Brand>
+        <Navbar.Brand><Image style={{width:"50%"}} src="iconvrumvrumnatal.png"/></Navbar.Brand>
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse className={styles.navcollapse}>
           <Nav className={styles.nav1}>
             <NavDropdown className={styles.navdrop} title="Usuários" id="dropdown-usuarios">
-              <NavDropdown.Item  className={styles.dropdownitem} href="/listar-usuarios"><a className={styles.a} href="/cadastrar-usuarios">Listar Usuarios</a></NavDropdown.Item >
-              <NavDropdown.Item  className={styles.dropdownitem} href="/cadastrar-usuarios"><a className={styles.a} href="/listar-usuarios">Cadastrar Usuário</a></NavDropdown.Item >
+              <NavDropdown.Item  className={styles.dropdownitem} href="/listar-usuarios"><a className={styles.a} href="/listar-usuarios">Listar Usuarios</a></NavDropdown.Item >
+              <NavDropdown.Item  className={styles.dropdownitem} href="/cadastra-usuarios"><a className={styles.a} href="/cadastro-usuarios">Cadastrar Usuário</a></NavDropdown.Item >
             </NavDropdown>
           </Nav>
           <Nav>

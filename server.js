@@ -7,7 +7,7 @@ const app = express();
 
 var corsOptions = {
     origin:
-      "http://localhost:3000",
+      "http://localhost:3001",
 };
 app.get("/", (req, res) =>{
     res.send("Rodando...");

@@ -5,6 +5,7 @@
   justify-content: center;
   gap: 30rem;
   align-items: center;
+
 }
 
 .textGroup {
@@ -45,6 +46,7 @@
   font-size: 1.2rem;
   border-radius: 5px;
   cursor: pointer;
+  margin: 1rem;
 }
 .img{
   width: 100%;
