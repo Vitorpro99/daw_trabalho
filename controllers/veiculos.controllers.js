@@ -4,7 +4,7 @@ const Veiculos = db.veiculos;
 exports.create = (req,res) =>{
     if(!req.body.marca){
         res.status(400).send({
-            message: "Nome é obrigatório, não pode estar vazio"
+            message: "Marca é obrigatório, não pode estar vazio"
         });
         return
     }

@@ -22,6 +22,7 @@ export default function Header(){
           <NavDropdown className={styles.navdrop} title="Veículos" id="dropdown-veiculos">
               <NavDropdown.Item  className={styles.dropdownitem} href="/listar-veiculos"><a className={styles.a} href="/listar-veiculos">Listar veiculos</a></NavDropdown.Item >
               <NavDropdown.Item className={styles.dropdownitem} href="/cadastro-veiculos"><a className={styles.a} href="/cadastro-veiculos">Cadastrar veiculos</a></NavDropdown.Item >
+              {/* <NavDropdown.Item className={styles.dropdownitem} href="/editar-veiculos" ><a className={styles.a} href="/editar-veiculos">Editar veiculos</a></NavDropdown.Item> */}
             </NavDropdown>
           </Nav>
           <Nav>

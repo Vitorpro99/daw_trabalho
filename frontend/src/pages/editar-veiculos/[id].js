@@ -1,25 +1,29 @@
 import api from "@/services/api";
 import styles from "@/styles/estilocadastros.module.css";
 import { useRouter } from 'next/router';
-import { useEffect, useState } from "react";
+import { useState, useEffect } from "react";
 import { SlArrowRight, SlArrowLeft, SlCheck } from "react-icons/sl"
 
 
 export default function cadastroveiculos() {
   const router = useRouter();
   const [step, setStep] = useState(1)
-  const [concessionarias,setConcessionarias] = useState([])
-  const getConcessionarias = () =>{
+  const [_id, setId] = useState(0);
+  const [veiculo, setVeiculo] = useState({})
+  const getVeiculo = (id) =>{
     api
-       .get("/concessionaria/")
-       .then((res) => {
-            setConcessionarias(res.data);
-        })
-       .catch((err) => {
-            console.error(err);
-            alert("Erro ao buscar as concessionarias!");
-        });
+        .get(`veiculos/${id}`)
+        .then((res) =>
+            setVeiculo(res.data))
+        .catch((err) => console.log(err))
   }
+  useEffect(() =>{
+    const _id = Number(router.query.id);
+    if(!isNaN(_id)){
+        getVeiculo(_id);
+        setId(_id);
+    }
+  },[])
   const salvarImagem = (id, file) => {
     const formData = new FormData();
     formData.append("file", file);
@@ -81,22 +85,21 @@ export default function cadastroveiculos() {
       concessionariumId: parseInt(formVeiculo.concessionaria),
     }
     api
-      .post("/veiculos/", salvarVeiculo)
+      .put(`/veiculos/${IDBCursor}`, salvarVeiculo)
       .then((res) => {
         console.log(salvarVeiculo);
-        if(foto.files){
-          const fotoSalvar = foto.files[0];
-          salvarImagem(res.data.id, fotoSalvar)
-        }
+        router.push("/listar-veiculos/")
+        // if(foto.files){
+        //   const fotoSalvar = foto.files[0];
+        //   salvarImagem(res.data.id, fotoSalvar)
+        // }
       })
       .catch((err) => {
         console.error(err);
-        alert("Erro ao salvar o carro!" + err);
+        alert("Erro ao editar o carro!" + err);
       });
   }
-useEffect(()=>{
-  getConcessionarias()
-},[]);
+
   return (
     <div className={styles.divCadastro} id="divCadastro">
       <h2 className={styles.h2}>Cadastro de veiculos</h2>
@@ -105,7 +108,7 @@ useEffect(()=>{
           <>
             <div className={styles.labelInputGroup}>
               <label className={styles.labels} htmlFor="marca">Marca</label>
-              <input className={styles.inputCadastro} onChange={handleChange} type="text" name="marca" id="name" />
+              <input className={styles.inputCadastro} defaultValue={veiculo.marca}  onChange={handleChange} type="text" name="marca" id="name" />
             </div>
             <br />
             <div className={styles.labelInputGroup}>
@@ -116,7 +119,7 @@ useEffect(()=>{
                 type="text"
                 name="modelo"
                 id="name" 
-                value={formVeiculo.modelos}
+                defaultValue={veiculo.modelo}
                 />
             </div>
             <br />
@@ -127,7 +130,7 @@ useEffect(()=>{
                 min="1800"
                 name="ano"
                 id="ano" 
-                value={formVeiculo.ano}/>
+                defaultValue={veiculo.ano}/>
             </div>
             <br />
           </>
@@ -141,7 +144,7 @@ useEffect(()=>{
                 type="text"
                 name="categoria"
                 id="categoria" 
-                value={formVeiculo.categoria}
+                defaultValue={veiculo.categoria}
                 />
             </div>
             <br />
@@ -152,7 +155,7 @@ useEffect(()=>{
                 type="number"
                 min="0" name="kilometragem"
                 id="kilometragem" 
-                value={formVeiculo.kilometragem}/>
+                defaultValue={veiculo.kilometragem}/>
             </div>
             <br />
             <div className={styles.labelInputGroup}>
@@ -161,7 +164,7 @@ useEffect(()=>{
                 type="text"
                 name="cor"
                 id="cor" 
-                value={formVeiculo.cor}
+                defaultValue={veiculo.cor}
                 />
             </div>
             <br />
@@ -176,7 +179,7 @@ useEffect(()=>{
                 min="0"
                 name="preco"
                 id="preco" 
-                value={formVeiculo.preco}
+                defaultValue={veiculo.preco}
                 />
             </div>
             <br />
@@ -199,7 +202,7 @@ useEffect(()=>{
                 id="descricao"
                 cols="30"
                 rows="10"
-                value={formVeiculo.descricao}>
+                defaultValue={veiculo.descricao}>
 
               </textarea>
             </div>
@@ -213,10 +216,11 @@ useEffect(()=>{
               <select className={styles.selectCadastro}
                 onChange={handleChange}
                 name="concessionaria"
-                id="concessionaria">
+                id="concessionaria"
+                defaultValue={veiculo.concessionaria}>
                 <option value="">Selecione uma concessionaria</option>
-                  {concessionarias.length > 0 && 
-                        concessionarias.map((concessionaria)=><option value={concessionaria.id}>{concessionaria.nome}</option>)}
+                <option value="1">Teste</option>
+                {/* Adicionar options de concessionaria aqui */}
               </select>
             </div>
             <br />
@@ -227,7 +231,7 @@ useEffect(()=>{
                 type="text"
                 name="chassi"
                 id="chassi" 
-                value={formVeiculo.chassi}/>
+                defaultValue={veiculo.chassi}/>
             </div>
             <br />
           </>
