@@ -1,57 +1,18 @@
 import api from "@/services/api";
 import styles from "@/styles/estilocadastros.module.css";
 import { useRouter } from 'next/router';
-import { useState, useEffect } from "react";
+import { useEffect, useState } from "react";
 import { SlArrowRight, SlArrowLeft, SlCheck } from "react-icons/sl"
-
 
 export default function cadastroveiculos() {
   const router = useRouter();
-  const [step, setStep] = useState(1)
+  const [step, setStep] = useState(1);
   const [_id, setId] = useState(0);
-  const [veiculo, setVeiculo] = useState({})
-  const getVeiculo = (id) =>{
-    api
-        .get(`veiculos/${id}`)
-        .then((res) =>
-            setVeiculo(res.data))
-        .catch((err) => console.log(err))
-  }
-  useEffect(() =>{
-    const _id = Number(router.query.id);
-    if(!isNaN(_id)){
-        getVeiculo(_id);
-        setId(_id);
-    }
-  },[])
-  const salvarImagem = (id, file) => {
-    const formData = new FormData();
-    formData.append("file", file);
-    api
-        .post("/veiculos/upload", formData, {
-            headers: {
-                "Content-Type": "multipart/form-data"
-            }
-        })
-        .then((response) => {
-            console.log(response)
-            const { file } = response.data;
-            api
-            .put(`/veiculos/${id}`, { foto: file.filename })
-            .then((res) => {
-                console.log("Foto salva com sucesso")
-                router.push('/listagem-veiculos')
-            })
-            .catch((err) => {
-                console.log("Erro ao salvar a imagem: " + err.message);
-            })
-        })
-    
-        .catch((err) => {
-            console.log(err);
-        })
-}
-  const [formVeiculo, setformVeiculo] = useState({
+  const [concessionarias, setConcessionarias] = useState([]);
+  const [veiculo, setVeiculo] = useState({});
+  
+  // Inicializando formVeiculo com valores vazios
+  const [formVeiculo, setFormVeiculo] = useState({
     marca: '',
     modelo: '',
     ano: '',
@@ -59,22 +20,77 @@ export default function cadastroveiculos() {
     kilometragem: '',
     cor: '',
     preco: '',
-    foto:'',    
+    foto: '',
     concessionaria: '',
     descricao: '',
     chassi: ''
-  })
+  });
 
+  // Função para obter as concessionarias
+  const getConcessionarias = () => {
+    api
+      .get("/concessionaria/")
+      .then((res) => {
+        setConcessionarias(res.data);
+      })
+      .catch((err) => {
+        console.error(err);
+        alert("Erro ao buscar as concessionarias!");
+      });
+  };
+
+  // Função para obter o veículo com base no ID
+  const getVeiculo = (id) => {
+    api
+      .get(`veiculos/${id}`)
+      .then((res) => setVeiculo(res.data))
+      .catch((err) => console.log(err));
+  };
+
+  // Atualizar formVeiculo assim que o veiculo for carregado
+  useEffect(() => {
+    const _id = Number(router.query.id);
+    if (!isNaN(_id)) {
+      getVeiculo(_id);
+      setId(_id);
+    }
+  }, []);
+
+  // Atualizando formVeiculo assim que o veiculo é carregado
+  useEffect(() => {
+    if (veiculo) {
+      setFormVeiculo({
+        marca: veiculo.marca || '',
+        modelo: veiculo.modelo || '',
+        ano: veiculo.ano || '',
+        categoria: veiculo.categoria || '',
+        kilometragem: veiculo.kilometragem || '',
+        cor: veiculo.cor || '',
+        preco: veiculo.preco || '',
+        foto: veiculo.foto || '',
+        concessionaria: veiculo.concessionariaId || '',
+        descricao: veiculo.descricao || '',
+        chassi: veiculo.chassi || ''
+      });
+    }
+  }, [veiculo]);
+
+  // Função para pegar a alteração do input
   const handleChange = (e) => {
     const { name, value, files } = e.target;
-    setformVeiculo({
+    setFormVeiculo({
       ...formVeiculo,
-      [name]: files ? files[0] : value
-    })
-  }
+      [name]: files ? files[0] : value  // Para arquivos, pegamos o primeiro arquivo
+    });
+  };
 
-  const nextStep = () => { setStep((prevStep) => prevStep + 1) }
-  const prevStep = () => { setStep((prevStep) => prevStep - 1) }
+  // Função para avançar no formulário
+  const nextStep = () => setStep((prevStep) => prevStep + 1);
+
+  // Função para voltar no formulário
+  const prevStep = () => setStep((prevStep) => prevStep - 1);
+
+  // Função para enviar o formulário
   const handleSubmit = (e) => {
     e.preventDefault();
     const salvarVeiculo = {
@@ -83,54 +99,64 @@ export default function cadastroveiculos() {
       kilometragem: parseInt(formVeiculo.kilometragem),
       preco: parseFloat(formVeiculo.preco),
       concessionariumId: parseInt(formVeiculo.concessionaria),
-    }
+    };
     api
-      .put(`/veiculos/${IDBCursor}`, salvarVeiculo)
-      .then((res) => {
-        console.log(salvarVeiculo);
-        router.push("/listar-veiculos/")
-        // if(foto.files){
-        //   const fotoSalvar = foto.files[0];
-        //   salvarImagem(res.data.id, fotoSalvar)
-        // }
+      .put(`/veiculos/${_id}`, salvarVeiculo)
+      .then(() => {
+        router.push("/listar-veiculos/");
       })
       .catch((err) => {
         console.error(err);
         alert("Erro ao editar o carro!" + err);
       });
-  }
+  };
+
+  // Carregar concessionarias na primeira renderização
+  useEffect(() => {
+    getConcessionarias();
+  }, []);
 
   return (
     <div className={styles.divCadastro} id="divCadastro">
-      <h2 className={styles.h2}>Cadastro de veiculos</h2>
+      <h2 className={styles.h2}>Editar veiculo</h2>
       <form onSubmit={handleSubmit} className={styles.formCadastro}>
         {step === 1 && (
           <>
             <div className={styles.labelInputGroup}>
               <label className={styles.labels} htmlFor="marca">Marca</label>
-              <input className={styles.inputCadastro} defaultValue={veiculo.marca}  onChange={handleChange} type="text" name="marca" id="name" />
+              <input
+                className={styles.inputCadastro}
+                value={formVeiculo.marca}
+                onChange={handleChange}
+                type="text"
+                name="marca"
+                id="marca"
+              />
             </div>
             <br />
             <div className={styles.labelInputGroup}>
               <label className={styles.labels} htmlFor="modelo">Modelo</label>
               <input
                 className={styles.inputCadastro}
+                value={formVeiculo.modelo}
                 onChange={handleChange}
                 type="text"
                 name="modelo"
-                id="name" 
-                defaultValue={veiculo.modelo}
-                />
+                id="modelo"
+              />
             </div>
             <br />
             <div className={styles.labelInputGroup}>
               <label className={styles.labels} htmlFor="ano">Ano</label>
-              <input className={styles.inputCadastro} onChange={handleChange}
+              <input
+                className={styles.inputCadastro}
+                value={formVeiculo.ano}
+                onChange={handleChange}
                 type="number"
                 min="1800"
                 name="ano"
-                id="ano" 
-                defaultValue={veiculo.ano}/>
+                id="ano"
+              />
             </div>
             <br />
           </>
@@ -139,33 +165,39 @@ export default function cadastroveiculos() {
           <>
             <div className={styles.labelInputGroup}>
               <label className={styles.labels} htmlFor="categoria">Categoria</label>
-              <input className={styles.inputCadastro}
+              <input
+                className={styles.inputCadastro}
+                value={formVeiculo.categoria}
                 onChange={handleChange}
                 type="text"
                 name="categoria"
-                id="categoria" 
-                defaultValue={veiculo.categoria}
-                />
+                id="categoria"
+              />
             </div>
             <br />
             <div className={styles.labelInputGroup}>
               <label className={styles.labels} htmlFor="kilometragem">Kilometragem</label>
-              <input className={styles.inputCadastro}
+              <input
+                className={styles.inputCadastro}
+                value={formVeiculo.kilometragem}
                 onChange={handleChange}
                 type="number"
-                min="0" name="kilometragem"
-                id="kilometragem" 
-                defaultValue={veiculo.kilometragem}/>
+                min="0"
+                name="kilometragem"
+                id="kilometragem"
+              />
             </div>
             <br />
             <div className={styles.labelInputGroup}>
               <label className={styles.labels} htmlFor="cor">Cor</label>
-              <input className={styles.inputCadastro} onChange={handleChange}
+              <input
+                className={styles.inputCadastro}
+                value={formVeiculo.cor}
+                onChange={handleChange}
                 type="text"
                 name="cor"
-                id="cor" 
-                defaultValue={veiculo.cor}
-                />
+                id="cor"
+              />
             </div>
             <br />
           </>
@@ -174,64 +206,75 @@ export default function cadastroveiculos() {
           <>
             <div className={styles.labelInputGroup}>
               <label className={styles.labels} htmlFor="preco">Preço</label>
-              <input className={styles.inputPrecoCadastro} onChange={handleChange}
+              <input
+                className={styles.inputPrecoCadastro}
+                value={formVeiculo.preco}
+                onChange={handleChange}
                 type="number"
                 min="0"
                 name="preco"
-                id="preco" 
-                defaultValue={veiculo.preco}
-                />
+                id="preco"
+              />
             </div>
             <br />
             <div className={styles.labelInputGroup}>
               <label className={styles.labels} htmlFor="foto">Foto</label>
-              <input className={styles.inputFileCadastro}
+              <input
+                className={styles.inputFileCadastro}
                 onChange={handleChange}
                 type="file"
                 name="foto"
                 id="foto"
                 accept={"image/png, image/jpg, image/jpeg"}
-                />
+              />
             </div>
             <br />
             <div className={styles.labelInputGroup}>
               <label className={styles.labels} htmlFor="descricao">Descrição</label>
-              <textarea className={styles.textareaCadastro}
+              <textarea
+                className={styles.textareaCadastro}
+                value={formVeiculo.descricao}
                 onChange={handleChange}
                 name="descricao"
                 id="descricao"
                 cols="30"
                 rows="10"
-                defaultValue={veiculo.descricao}>
-
-              </textarea>
+              ></textarea>
             </div>
             <br />
           </>
         )}
-        {step == 4 && (
+        {step === 4 && (
           <>
             <div className={styles.labelInputGroup}>
-              <label className={styles.labels} htmlFor="concessionaria">Concessionaria</label>
-              <select className={styles.selectCadastro}
+              <label className={styles.labels} htmlFor="concessionaria">Concessionária</label>
+              <select
+                className={styles.selectCadastro}
+                value={formVeiculo.concessionaria}
                 onChange={handleChange}
-                name="concessionaria"
-                id="concessionaria"
-                defaultValue={veiculo.concessionaria}>
-                <option value="">Selecione uma concessionaria</option>
-                <option value="1">Teste</option>
-                {/* Adicionar options de concessionaria aqui */}
+                name="concessionariaId"
+                id="concessionariaId"
+              >
+                <option value="">Selecione uma concessionária</option>
+                {concessionarias.length > 0 &&
+                  concessionarias.map((concessionaria) => (
+                    <option key={concessionaria.id} value={concessionaria.id}>
+                      {concessionaria.nome}
+                    </option>
+                  ))}
               </select>
             </div>
             <br />
             <div className={styles.labelInputGroup}>
               <label className={styles.labels} htmlFor="chassi">Chassi</label>
-              <input className={styles.inputCadastro}
+              <input
+                className={styles.inputCadastro}
+                value={formVeiculo.chassi}
                 onChange={handleChange}
                 type="text"
                 name="chassi"
-                id="chassi" 
-                defaultValue={veiculo.chassi}/>
+                id="chassi"
+              />
             </div>
             <br />
           </>
@@ -241,7 +284,6 @@ export default function cadastroveiculos() {
           {step < 4 && <button className={styles.submitButton} type="button" onClick={nextStep}><SlArrowRight className={styles.icon} /></button>}
           {step === 4 && <button className={styles.submitButton} type="submit"><SlCheck className={styles.icon} /></button>}
         </div>
-
       </form>
     </div>
   );

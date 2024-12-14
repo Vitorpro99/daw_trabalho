@@ -4,20 +4,10 @@ import { useRouter } from "next/router";
 import { useState, useEffect } from "react";
 import { SlArrowRight, SlArrowLeft, SlCheck } from "react-icons/sl";
 
-export default function CadastroProdutos() {
+export default function EditarConcessionarias() {
   const router = useRouter();
+  const { id } = router.query;  // Obtenha o ID da concessionária na URL
   const [step, setStep] = useState(1);
-  const [usuarios,setUsuarios] = useState([]);
-  const getUsuarios = () =>{
-    api
-     .get("/usuarios/")
-     .then((res) => {
-        setUsuarios(res.data);
-      })
-     .catch((err) => {
-        console.error(err);
-      });
-  }
   const [formConcessionaria, setFormConcessionaria] = useState({
     nome: "",
     endereco: "",
@@ -30,6 +20,22 @@ export default function CadastroProdutos() {
     usuarioId: "",
   });
 
+  // Carrega os dados da concessionária quando o ID é passado na URL
+  useEffect(() => {
+    if (id) {
+      api
+        .get(`/concessionaria/${id}`)
+        .then((res) => {
+          setFormConcessionaria(res.data);
+        })
+        .catch((err) => {
+          console.error(err);
+          alert("Erro ao carregar os dados da concessionária");
+        });
+    }
+  }, [id]);
+
+  // Função para atualizar os campos do formulário
   const handleChange = (e) => {
     const { name, value, files } = e.target;
     setFormConcessionaria({
@@ -41,6 +47,7 @@ export default function CadastroProdutos() {
   const nextStep = () => setStep((prevStep) => prevStep + 1);
   const prevStep = () => setStep((prevStep) => prevStep - 1);
 
+  // Função para enviar os dados do formulário
   const handleSubmit = (e) => {
     e.preventDefault();
     const salvarConcessionaria = {
@@ -50,26 +57,24 @@ export default function CadastroProdutos() {
       lat: parseFloat(formConcessionaria.lat),
       long: parseFloat(formConcessionaria.long),
       usuarioId: parseInt(formConcessionaria.usuarioId),
-      
     };
 
     api
-      .post("/concessionaria/", salvarConcessionaria)
+      .put(`/concessionaria/${id}`, salvarConcessionaria)
       .then((res) => {
         console.log(salvarConcessionaria);
-        alert("Concessionária salva com sucesso!");
+        alert("Concessionária editada com sucesso!");
+        router.push("/listar-concessionarias"); // Redireciona após salvar
       })
       .catch((err) => {
         console.error(err);
-        alert("Erro ao salvar a concessionária: " + err);
+        alert("Erro ao editar a concessionária: " + err);
       });
   };
-  useEffect(() =>{
-    getUsuarios();
-  })
+
   return (
     <div className={styles.divCadastro} id="divCadastro">
-      <h2 className={styles.h2}>Cadastro de Concessionárias</h2>
+      <h2 className={styles.h2}>Edição de Concessionárias</h2>
       <form onSubmit={handleSubmit} className={styles.formCadastro}>
         {step === 1 && (
           <>
@@ -153,34 +158,17 @@ export default function CadastroProdutos() {
         )}
         {step === 3 && (
           <>
-          <div className={styles.labelInputGroup}>
-              <label className={styles.labels} htmlFor="usuarioId">Usuário</label>
-              <select
-                className={styles.selectCadastro}
-                onChange={handleChange}
-                name="usuarioId"
-                id="usuarioId"
-              >
-                <option value="">Selecione uma usuário</option>
-                {usuarios.length > 0 &&
-                  usuarios.map((usuario) => (
-                    <option key={usuario.id} value={usuario.id}>
-                      {usuario.nome}
-                    </option>
-                  ))}
-              </select>
-            </div>
             <div className={styles.labelInputGroup}>
               <label className={styles.labels} htmlFor="foto">Foto</label>
-              <input disabled
+              <input
                 className={styles.inputFileCadastro}
                 onChange={handleChange}
+                disabled
                 type="file"
                 name="foto"
                 id="foto"
                 accept={"image/png, image/jpg, image/jpeg"}
               />
-              <p className={styles.filep}>Input desabilitado por forças maiores</p>
             </div>
             <br />
           </>

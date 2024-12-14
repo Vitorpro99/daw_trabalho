@@ -22,31 +22,28 @@ export default function cadastroveiculos() {
   }
   const salvarImagem = (id, file) => {
     const formData = new FormData();
-    formData.append("file", file);
-    api
-        .post("/veiculos/upload", formData, {
-            headers: {
-                "Content-Type": "multipart/form-data"
-            }
-        })
-        .then((response) => {
-            console.log(response)
-            const { file } = response.data;
-            api
-            .put(`/veiculos/${id}`, { foto: file.filename })
-            .then((res) => {
-                console.log("Foto salva com sucesso")
-                router.push('/listagem-veiculos')
-            })
-            .catch((err) => {
-                console.log("Erro ao salvar a imagem: " + err.message);
-            })
-        })
-    
-        .catch((err) => {
-            console.log(err);
-        })
-}
+    formData.append("file", file); // "file" deve ser o mesmo nome usado no backend
+
+    console.log("FormData antes do envio:", formData.get("file"));
+
+    api.post("/veiculos/upload", formData, {
+        headers: {
+            "Content-Type": "multipart/form-data",
+        },
+    })
+    .then((response) => {
+        console.log("Resposta do servidor:", response.data);
+        if (response.data.upload) {
+            const { filename } = response.data.file;
+            api.put(`/veiculos/${id}`, { foto: filename })
+                .then(() => console.log("Foto salva com sucesso"))
+                .catch((err) => console.error("Erro ao salvar a foto:", err));
+        }
+    })
+    .catch((err) => console.error("Erro no upload:", err));
+};
+
+
   const [formVeiculo, setformVeiculo] = useState({
     marca: '',
     modelo: '',
@@ -63,40 +60,53 @@ export default function cadastroveiculos() {
 
   const handleChange = (e) => {
     const { name, value, files } = e.target;
-    setformVeiculo({
-      ...formVeiculo,
-      [name]: files ? files[0] : value
-    })
-  }
+
+    setformVeiculo((prev) => ({
+        ...prev,
+        [name]: files ? files[0] : value, // Captura o arquivo no campo "foto"
+    }));
+};
+
+
 
   const nextStep = () => { setStep((prevStep) => prevStep + 1) }
   const prevStep = () => { setStep((prevStep) => prevStep - 1) }
+  
+  
   const handleSubmit = (e) => {
     e.preventDefault();
-    const {foto} = e.target;
+
     const salvarVeiculo = {
-      ...formVeiculo,
-      foto: '',
-      ano: parseInt(formVeiculo.ano),
-      kilometragem: parseInt(formVeiculo.kilometragem),
-      preco: parseFloat(formVeiculo.preco),
-      concessionariumId: parseInt(formVeiculo.concessionaria),
-    }
-    api
-      .post("/veiculos/", salvarVeiculo)
-      .then((res) => {
-        console.log(salvarVeiculo);
-        console.log(foto);
-        if(foto.files){
-          const fotoSalvar = foto.files[0];
-          salvarImagem(res.data.id, fotoSalvar)
+        ...formVeiculo,
+        foto: '', // Será atualizado após o upload
+        ano: parseInt(formVeiculo.ano),
+        kilometragem: parseInt(formVeiculo.kilometragem),
+        preco: parseFloat(formVeiculo.preco),
+        concessionariumId: parseInt(formVeiculo.concessionaria),
+    };
+
+    api.post("/veiculos/", salvarVeiculo)
+    .then((res) => {
+        const { id } = res.data;
+
+        if (formVeiculo.foto) {
+            // Envia a imagem para o backend
+            salvarImagem(id, formVeiculo.foto);
+            alert("Veiculo salvo com sucesso! (e com foto :D)")
+            console.log(salvarVeiculo);
+        } else {
+            console.log("Veículo salvo sem imagem");
+            router.push('/listar-veiculos');
         }
-      })
-      .catch((err) => {
-        console.error(err);
-        alert("Erro ao salvar o carro!" + err);
-      });
-  }
+    })
+    .catch((err) => {
+        console.error("Erro ao salvar o veículo:", err);
+        alert("Erro ao salvar o carro!");
+    });
+};
+
+
+  
 useEffect(()=>{
   getConcessionarias()
 },[]);
@@ -185,12 +195,14 @@ useEffect(()=>{
             <br />
             <div className={styles.labelInputGroup}>
               <label className={styles.labels} htmlFor="foto">Foto</label>
-              <input className={styles.inputFileCadastro}
+              <input
+                className={styles.inputFileCadastro}
                 type="file"
                 name="foto"
                 id="foto"
-                accept={"image/png, image/jpg, image/jpeg"}
-                />
+                accept="image/png, image/jpg, image/jpeg"
+                onChange={handleChange} // Garantir que o arquivo seja capturado
+              />
             </div>
             <br />
             <div className={styles.labelInputGroup}>
@@ -214,8 +226,8 @@ useEffect(()=>{
               <label className={styles.labels} htmlFor="concessionaria">Concessionaria</label>
               <select className={styles.selectCadastro}
                 onChange={handleChange}
-                name="concessionaria"
-                id="concessionaria">
+                name="concessionariaId"
+                id="concessionariaId">
                 <option value="">Selecione uma concessionaria</option>
                   {concessionarias.length > 0 && 
                         concessionarias.map((concessionaria)=><option value={concessionaria.id}>{concessionaria.nome}</option>)}

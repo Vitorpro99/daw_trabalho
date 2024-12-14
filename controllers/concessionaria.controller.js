@@ -15,7 +15,11 @@ if(!req.body.nome){
         cnpj: req.body.cnpj,
         cidade: req.body.cidade,
         foto: req.body.foto,
-        usuarioId: req.body.usuarioId
+        usuarioId: req.body.usuarioId,
+        email: req.body.email,
+        telefone: req.body.telefone,
+        lat: req.body.lat,
+        long: req.body.long
     }
     Concessionaria.create(concessionaria)
         .then((data)=> {

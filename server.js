@@ -7,7 +7,7 @@ const app = express();
 
 var corsOptions = {
     origin:
-      "http://localhost:3001",
+      "http://localhost:3000",
 };
 app.get("/", (req, res) =>{
     res.send("Rodando...");
@@ -24,6 +24,7 @@ db.sequelize
   .sync({alter : true})
   .then(() =>{
     console.log("Synced DB")
+    console.clear()
   })
   .catch((err) => {
     console.error("Erro ao sincronizar DB: ", err.message);
@@ -34,5 +35,6 @@ db.sequelize
   require("./routes/routes.veiculos.js")(app);
   
 app.listen(8000, function (req,res) {
+    console.clear();
     console.log("App rodando na porta 8000");
 });

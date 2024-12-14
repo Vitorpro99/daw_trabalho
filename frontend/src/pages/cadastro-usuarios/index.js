@@ -69,7 +69,7 @@ export default function cadastroProdutos() {
             </div>
             <br />
             <div className={styles.labelInputGroup}>
-              <label className={styles.labels} htmlFor="modelo">email</label>
+              <label className={styles.labels} htmlFor="modelo">E-mail</label>
               <input
                 className={styles.inputCadastro}
                 onChange={handleChange}
@@ -88,7 +88,7 @@ export default function cadastroProdutos() {
                 id="senha" 
                 value={formUsuario.senha}/>
             </div>
-            <div className={styles.labelInputGroup}>
+            {/* <div className={styles.labelInputGroup}>
               <label className={styles.labels} htmlFor="foto">Foto</label>
               <input
                 className={styles.inputFileCadastro}
@@ -98,7 +98,7 @@ export default function cadastroProdutos() {
                 id="foto"
                 accept={"image/png, image/jpg, image/jpeg"}
               />
-            </div>
+            </div> */}
             <br />
           </>
         )}

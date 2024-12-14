@@ -7,7 +7,7 @@ import { FaEye } from "react-icons/fa";
 import { FaPencilAlt } from "react-icons/fa";
 import { useRouter } from "next/router";
 import { Router } from "next/router";
-import router from "express/lib/router";
+
 
 
 
@@ -33,19 +33,20 @@ export default function CardVeiculo({veiculo}){
     // },[])
     return(
         <div className={styles.container}>
-            <img src={veiculo.preview ?? "https://encurtador.com.br/VtndM"} />
+            <img className={styles.img} src={veiculo.preview ?? "https://encurtador.com.br/VtndM"} />
         <div className={styles.intDiv}>
             <h4 className={styles.specs}>{veiculo.marca} {veiculo.modelo} {veiculo.ano}</h4>
         <div className={styles.kmprice}>
             <p>R${veiculo.preco}</p>
             <p>{veiculo.kilometragem}KM</p>
+            {/* <p>Id: {veiculo.concessionariaId}</p> */}
         </div>
         <div className={styles.cor}>
             <p>{veiculo.cor}</p>
         </div>
             <p>Chassi: {veiculo.chassi}</p>
             <p>Categoria: {veiculo.categoria}</p>      
-            {/* <p>{veiculo.descricao}</p>   */}
+            <p>{veiculo.descricao}</p>  
             </div>
         <div className={styles.buttonGroup}>
             {/* <button>Comprar</button>  ainda não sei fazer isso T-T*/} 

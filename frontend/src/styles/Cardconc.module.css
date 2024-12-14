@@ -17,9 +17,14 @@
     border-radius: 10px;
     padding:0.5rem;
 }
+.contact > p{
+    
+color:black;
+}
 .img{
     width: 35%;
     object-fit: cover;
+    justify-self: left;
 }
 .intDiv > p{
     color:black;
